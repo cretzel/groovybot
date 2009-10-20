@@ -1,0 +1,11 @@
+GroovyBot Spec
+
+Use Case 1: 
+
+!groovy
+class Foo {
+  def x = 'Foo'
+  def foo() {
+  	x*3
+  }
+}

@@ -1,0 +1,13 @@
+GroovyBot ToDo
+
+- Create GroovyBot
+- Create Syntaxhighlighter Gadget
+- Create GroovyBot (Syntaxhighlighter) Gadget
+- Create home page
+- Create profile
+- Create logo
+- Create Github repository
+- Create issue tracker
+- Create REST service
+- Create Web console
+- Create basic database (stats, user stats)
