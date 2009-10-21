@@ -1,13 +1,23 @@
 GroovyBot ToDo
 
 - Create GroovyBot
+  * Create TemplateBlipHandler
+  * Think about ways to handle response
 - Create Syntaxhighlighter Gadget
 - Create GroovyBot (Syntaxhighlighter) Gadget
 - Create home page
-- Create profile
+- Create profile #
 - Create logo
-- Create Github repository
-- Create issue tracker
+- Create Github repository ###
+- Create issue tracker ###
 - Create REST service
 - Create Web console
 - Create basic database (stats, user stats)
+- Publish a blog post
+  * Easy to get started
+  * Response handling is hard/buggy
+    * Inserting child blips
+    * Inserting inline blips
+    * Changing gadget state
+  * Wave is slow
+  * No Wave support in SDK

@@ -32,7 +32,7 @@ public class GroovyBotControllerImpl implements GroovyBotController {
     @Override
     public void processEvents(final RobotMessageBundle bundle) {
         getLogger().info("GroovyBotController.processEvents");
-
+        
         if (bundle.wasSelfAdded()) {
             getLogger().info("GroovyBotController wasSelfAdded");
             handleSelfAdded(bundle);
@@ -61,7 +61,7 @@ public class GroovyBotControllerImpl implements GroovyBotController {
         final String text = document.getText();
 
         if (text.startsWith(GroovyScriptBlipHandler.SCRIPT_PREFIX)) {
-            scriptBlipHandler.handleScriptBlip(blip);
+            scriptBlipHandler.handleScriptBlip(bundle, event, blip);
         }
 
     }
