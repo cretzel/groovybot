@@ -6,12 +6,18 @@ import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.wave.api.Blip;
+import com.google.wave.api.Wavelet;
+import com.groovybot.GroovyBotApplication;
 
 public final class BlipUtils {
 
-    public static final String ROBOT_EMAIL = "groovybot@appspot.com";
-
     private BlipUtils() {
+    }
+
+    public static Blip appendNewBlip(final Wavelet wavelet, final String text) {
+        final Blip blip = wavelet.appendBlip();
+        blip.getDocument().append(text);
+        return blip;
     }
 
     public static void removeInlineBlipsOfThisRobot(final Blip blip) {
@@ -27,7 +33,8 @@ public final class BlipUtils {
 
             @Override
             public boolean apply(final Blip blip) {
-                return ROBOT_EMAIL.equals(blip.getCreator());
+                return GroovyBotApplication.ROBOT_EMAIL.equals(blip
+                        .getCreator());
             }
 
         }));

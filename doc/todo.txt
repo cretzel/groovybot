@@ -3,6 +3,7 @@ GroovyBot ToDo
 - Create GroovyBot
   * Create TemplateBlipHandler
   * Think about ways to handle response
+- Introduce DI (with Guice)
 - Create Syntaxhighlighter Gadget
 - Create GroovyBot (Syntaxhighlighter) Gadget
 - Create home page
