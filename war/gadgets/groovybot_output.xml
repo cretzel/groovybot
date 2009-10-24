@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+<ModulePrefs title="GroovyBotOutputGadget" height="200" scrolling="true">
+  <Require feature="wave" /> 
+  <Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+ 
+<link type="text/css" rel="stylesheet" href="http://groovybot.appspot.com/res/syntaxhighlighter/css/SyntaxHighlighter.css"></link>
+<script language="javascript" src="http://groovybot.appspot.com/res/jquery.js"></script>
+<script language="javascript" src="http://groovybot.appspot.com/res/syntaxhighlighter/js/shCore.js"></script>
+<script language="javascript" src="http://groovybot.appspot.com/res/syntaxhighlighter/js/shBrushJava.js"></script>
+
+
+<textarea id="groovyBotOutput" style="width:100%;height:200px;"></textarea>
+
+<script type="text/javascript">
+    dp.SyntaxHighlighter.ClipboardSwf = 'http://cretzelwave.appspot.com/res/syntaxhighlighter/js/flash/clipboard.swf';
+    dp.SyntaxHighlighter.HighlightAll('code');
+
+
+    function stateUpdated() {
+      alert(wave.getState().get('output'));
+      var outputBox = $("#groovyBotOutput");
+      if(wave.getState().get('output')) {
+		outputBox.html(wave.getState().get('output'));
+      } 
+    }
+ 
+    function init() {
+      if (wave && wave.isInWaveContainer()) {
+        wave.setStateCallback(stateUpdated);
+      }
+    }
+    gadgets.util.registerOnLoadHandler(init);
+
+    gadgets.window.adjustHeight();
+	
+</script>
+  ]]> 
+  </Content>
+</Module>
+
