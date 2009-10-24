@@ -20,7 +20,6 @@ public class EngineResultFormatterImpl implements EngineResultFormatter {
 
         final Throwable throwable = result.getThrowable();
         if (throwable != null) {
-            b.append(throwable.toString());
             final StringWriter sw = new StringWriter();
             final PrintWriter pw = new PrintWriter(sw);
             throwable.printStackTrace(pw);

@@ -6,6 +6,8 @@ import groovy.lang.GroovyShell;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
+import com.google.apphosting.api.ApiProxy;
+import com.google.apphosting.api.ApiProxy.Environment;
 import com.groovybot.engine.EngineResult;
 import com.groovybot.engine.GroovyEngine;
 
@@ -21,19 +23,26 @@ public class GroovyEngineImpl implements GroovyEngine {
         StackTraceElement[] stackTrace = null;
         String output = null;
 
-        final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        final Environment oldAppEngineEnv = ApiProxy.getCurrentEnvironment();
         final PrintStream oldSysout = System.out;
+        final PrintStream oldSyserr = System.err;
+        final ByteArrayOutputStream bout = new ByteArrayOutputStream();
+        final PrintStream sysPrintStream = new PrintStream(bout, true);
 
         final GroovyShell shell = newShell();
         try {
-            System.setOut(new PrintStream(bout));
+            ApiProxy.clearEnvironmentForCurrentThread();
+            System.setOut(sysPrintStream);
+            System.setErr(sysPrintStream);
             result = shell.evaluate(script);
         } catch (final Exception e) {
             throwable = e;
             stackTrace = e.getStackTrace();
         } finally {
+            ApiProxy.setEnvironmentForCurrentThread(oldAppEngineEnv);
             System.setOut(oldSysout);
-            output = new String(bout.toByteArray());
+            System.setErr(oldSyserr);
+            output = bout.toString();
         }
 
         return new DefaultEngineResult(result, output, throwable, stackTrace);
