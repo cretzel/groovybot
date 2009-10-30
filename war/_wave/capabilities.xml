@@ -3,5 +3,5 @@
   <w:capabilities>
 	<w:capability name="BLIP_SUBMITTED" content="true" />
   </w:capabilities>
-  <w:version>0.1.3</w:version>
+  <w:version>0.1.4</w:version>
 </w:robot>
