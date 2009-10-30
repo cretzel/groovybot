@@ -12,7 +12,7 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/wave-robot-api-20090916.jar" sourcepath="/wave-robot-java-client/src"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/easyb-0.9.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-cli-1.2.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/groovy-all-1.6.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/groovy-all-1.6.4.jar" sourcepath="C:/Users/Nick/.m2/repository/org/codehaus/groovy/groovy-all/1.6.4/groovy-all-1.6.4-sources.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hamcrest-core-1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/hamcrest-library-1.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jline-0.9.94.jar"/>

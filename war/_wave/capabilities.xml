@@ -3,6 +3,5 @@
   <w:capabilities>
 	<w:capability name="BLIP_SUBMITTED" content="true" />
   </w:capabilities>
-  <w:version>0.1.1</w:version>
-  <w:profile name="GroovyBot" imageurl="http://groovybot.appspot.com/groovybot.gif" profileurl="http://groovybot.appspot.com/_wave/robot/profile"/> 
+  <w:version>0.1.3</w:version>
 </w:robot>

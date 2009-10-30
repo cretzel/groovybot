@@ -19,7 +19,7 @@ public class ProfileServlet extends HttpServlet {
 
     private String getResponse() {
         return "{\n\t\"profileUrl\":\"http://groovybot.appspot.com/\",\n"
-                + "\t\"imageUrl\":\"http://groovybot.appspot.com/groovybot.gif\",\n"
+                + "\t\"imageUrl\":\"http://groovybot.appspot.com/res/groovybot.gif\",\n"
                 + "\t\"name\":\"GroovyBot\"\n}";
     }
 }
