@@ -7,15 +7,25 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.groovybot.engine.EngineResult;
-import com.groovybot.engine.EngineResultFormatter;
-import com.groovybot.engine.GroovyEngine;
-import com.groovybot.engine.impl.EngineResultFormatterImpl;
-import com.groovybot.engine.impl.GroovyEngineImpl;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
+import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
+import com.groovybot.engine.result.EngineResult;
+import com.groovybot.engine.result.EngineResultFormatter;
+import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 
 public class TestServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
+    private GroovyEngineExecutionWrapper engineWrapper;
+    private EngineResultFormatter formatter;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        final GroovyEngineExecutionWrapperFactoryImpl engineWrapperFactory = new GroovyEngineExecutionWrapperFactoryImpl();
+        engineWrapper = engineWrapperFactory.createShellEngineWrapper();
+        formatter = new EngineResultFormatterImpl();
+    }
 
     @Override
     public void doGet(final HttpServletRequest req,
@@ -24,9 +34,7 @@ public class TestServlet extends HttpServlet {
         resp.getWriter().println("Hello, world");
 
         final String script = "println 'Foo'";
-
-        final GroovyEngine engine = new GroovyEngineImpl();
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
         resp.getWriter().println(result.getOutput());
     }
 
@@ -34,13 +42,13 @@ public class TestServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req,
             final HttpServletResponse resp) throws ServletException,
             IOException {
+
         if (req.getParameter("execute") != null) {
             final String input = req.getParameter("input");
-            final GroovyEngine engine = new GroovyEngineImpl();
-            final EngineResult result = engine.execute(input);
-            final EngineResultFormatter formatter = new EngineResultFormatterImpl();
+            final EngineResult result = engineWrapper.execute(input);
             resp.getWriter().println(formatter.format(result));
         }
+        
     }
 
 }

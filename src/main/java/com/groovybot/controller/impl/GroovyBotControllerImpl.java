@@ -9,13 +9,16 @@ import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
 import com.google.wave.api.Wavelet;
 import com.groovybot.controller.GroovyBotController;
-import com.groovybot.controller.handler.GroovyScriptBlipHandler;
+import com.groovybot.controller.handler.ScriptBlipHandler;
+import com.groovybot.controller.handler.TemplateBlipHandler;
 import com.groovybot.controller.handler.impl.ScriptBlipHandlerImpl;
+import com.groovybot.controller.handler.impl.TemplateBlipHandlerImpl;
 import com.groovybot.util.BlipUtils;
 
 public class GroovyBotControllerImpl implements GroovyBotController {
 
-    private final GroovyScriptBlipHandler scriptBlipHandler;
+    private final ScriptBlipHandler scriptBlipHandler;
+    private final TemplateBlipHandler templateBlipHandler;
 
     private transient Logger logger;
 
@@ -28,6 +31,7 @@ public class GroovyBotControllerImpl implements GroovyBotController {
 
     public GroovyBotControllerImpl() {
         scriptBlipHandler = new ScriptBlipHandlerImpl();
+        templateBlipHandler = new TemplateBlipHandlerImpl();
     }
 
     @Override
@@ -63,8 +67,12 @@ public class GroovyBotControllerImpl implements GroovyBotController {
         final TextView document = blip.getDocument();
         final String text = document.getText();
 
-        if (text.startsWith(GroovyScriptBlipHandler.SCRIPT_PREFIX)) {
-            scriptBlipHandler.handleScriptBlip(bundle, blip, event);
+        if (text.startsWith(ScriptBlipHandler.SCRIPT_PREFIX)) {
+            scriptBlipHandler.handleBlip(bundle, blip, event);
+        }
+
+        if (text.startsWith(TemplateBlipHandler.TEMPLATE_PREFIX)) {
+            templateBlipHandler.handleBlip(bundle, blip, event);
         }
 
     }

@@ -2,6 +2,6 @@ package com.groovybot.engine;
 
 public interface GroovyEngine {
 
-    EngineResult execute(final String script);
+    Object execute(final String script);
 
 }

@@ -5,7 +5,10 @@ scenario "script blip handler is called with non-script-blip prefix", {
     handler = new ScriptBlipHandlerImpl()
   }
 
-  when "handler is called to with a non-script-blip prefix"
+  when "handler is called to with a non-script-blip prefix", {
+    handler.handleScriptBlip()
+  }
+
   then "then the handler should throw an IllegalArgumentException"
 }
 

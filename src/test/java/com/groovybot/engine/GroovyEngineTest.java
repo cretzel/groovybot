@@ -9,27 +9,30 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.groovybot.engine.impl.GroovyEngineImpl;
+import com.groovybot.engine.impl.GroovyEngineExecutionWrapperImpl;
+import com.groovybot.engine.impl.GroovyShellEngineImpl;
+import com.groovybot.engine.result.EngineResult;
 
 public class GroovyEngineTest {
 
-    private GroovyEngine engine;
+    private GroovyEngineExecutionWrapper engineWrapper;
 
     @Before
     public void before() {
-        engine = new GroovyEngineImpl();
+        engineWrapper = new GroovyEngineExecutionWrapperImpl(
+                new GroovyShellEngineImpl());
     }
 
     @Test
     public void engineShouldExecuteSimpleScript() throws Exception {
         final String script = "def tmp = 'Hello World'";
-        engine.execute(script);
+        engineWrapper.execute(script);
     }
 
     @Test
     public void engineShouldReturnReturnValueOfScript() throws Exception {
         final String script = "def x = 'Hello World'\nreturn x";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertNotNull(result);
         assertEquals("Hello World", result.getReturnValue());
@@ -38,32 +41,35 @@ public class GroovyEngineTest {
     @Test
     public void engineShouldReturnNullStringOnNoReturnValue() throws Exception {
         final String script = "def x = 'Hello World'\nprintln 'X'";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertNull(result.getReturnValue());
     }
 
     @Test
-    public void engineShouldReturnExceptionOnCompilationFailure() throws Exception {
+    public void engineShouldReturnExceptionOnCompilationFailure()
+            throws Exception {
         final String script = "}cla Foo";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertTrue(result.getThrowable() instanceof CompilationFailedException);
     }
 
     @Test
-    public void engineShouldReturnStacktraceOnCompilationFailure() throws Exception {
+    public void engineShouldReturnStacktraceOnCompilationFailure()
+            throws Exception {
         final String script = "}cla Foo";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertNotNull(result.getStackTrace());
         assertTrue(result.getStackTrace().length > 0);
     }
 
     @Test
-    public void engineShouldReturnStacktraceOnExecutionFailure() throws Exception {
+    public void engineShouldReturnStacktraceOnExecutionFailure()
+            throws Exception {
         final String script = "def x = n";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertNotNull(result.getStackTrace());
         assertTrue(result.getStackTrace().length > 0);
@@ -72,7 +78,7 @@ public class GroovyEngineTest {
     @Test
     public void engineShouldReturnStdoutAsString() throws Exception {
         final String script = "println 'Foo'";
-        final EngineResult result = engine.execute(script);
+        final EngineResult result = engineWrapper.execute(script);
 
         assertNotNull(result.getOutput());
         assertEquals("Foo\r\n", result.getOutput());
