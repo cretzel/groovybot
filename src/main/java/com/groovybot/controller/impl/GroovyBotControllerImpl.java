@@ -54,10 +54,14 @@ public class GroovyBotControllerImpl implements GroovyBotController {
 
     private void handleSelfAdded(final RobotMessageBundle bundle) {
         final Wavelet wavelet = bundle.getWavelet();
-        BlipUtils.appendNewBlip(wavelet,
-                "GroovyBot added. Create a blip starting with "
-                        + "!groovy to execute Groovy code, e.g. "
-                        + "!groovy println 'Hello World'");
+        BlipUtils
+                .appendNewBlip(
+                        wavelet,
+                        "GroovyBot added. Create a blip starting with "
+                                + "!groovy to execute the blip as Groovy code, e.g. "
+                                + "!groovy println 'Hello World', or use !gtemplate to "
+                                + "execute the blip as a Groovy Template, e.g. "
+                                + "!gtemplate <% out.println 'Foo' %>");
     }
 
     private void handleBlipSumbitted(final Event event,

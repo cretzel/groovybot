@@ -1,6 +1,7 @@
 package com.groovybot.util;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
@@ -10,12 +11,23 @@ import com.google.wave.api.Wavelet;
 import com.groovybot.GroovyBotApplication;
 
 public final class BlipUtils {
+    private static transient Logger logger;
+
+    private static Logger getLogger() {
+        if (logger == null) {
+            logger = Logger.getLogger("GroovyBot");
+        }
+        return logger;
+    }
 
     private BlipUtils() {
     }
 
     public static Blip appendNewBlip(final Wavelet wavelet, final String text) {
         final Blip blip = wavelet.appendBlip();
+        // TODO
+        // Workaraound for http://code.google.com/p/google-wave-resources/issues/detail?id=354&sort=-id&colspec=Stars%20ID%20Type%20Status%20Priority%20Milestone%20Owner%20Summary%20Internal
+        blip.getDocument().delete(); 
         blip.getDocument().append(text);
         return blip;
     }
