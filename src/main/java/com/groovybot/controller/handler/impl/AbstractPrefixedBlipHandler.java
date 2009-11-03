@@ -4,23 +4,23 @@ import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
+import com.groovybot.controller.response.BlipHandlerResponseStrategy;
+import com.groovybot.controller.response.impl.AppendResultBlipToWaveStrategy;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
-import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
-import com.groovybot.util.BlipUtils;
 
 public abstract class AbstractPrefixedBlipHandler {
 
     private final String prefix;
-    private EngineResultFormatter engineResultFormatter;
     private ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao;
+    private final BlipHandlerResponseStrategy responseStrategy;
 
     public AbstractPrefixedBlipHandler(final String prefix) {
         this.prefix = prefix;
-        engineResultFormatter = new EngineResultFormatterImpl();
         groovyBotScriptExecutionEntityDao = new ScriptExecutionEntityDaoImpl();
+        responseStrategy = new AppendResultBlipToWaveStrategy();
     }
 
     public void handleBlip(final RobotMessageBundle bundle, final Blip blip,
@@ -30,7 +30,7 @@ public abstract class AbstractPrefixedBlipHandler {
 
         final EngineResult result = executeScript(script);
         persistExecutionEntry(event, script, result);
-        handleResult(bundle, blip, result);
+        handleResult(bundle, blip, event, result);
     }
 
     private void assertStartsWithPrefix(final Blip blip) {
@@ -55,9 +55,8 @@ public abstract class AbstractPrefixedBlipHandler {
     protected abstract EngineResult executeScript(String script);
 
     public void handleResult(final RobotMessageBundle bundle, final Blip blip,
-            final EngineResult result) {
-        final String formattedResult = engineResultFormatter.format(result);
-        BlipUtils.appendNewBlip(bundle.getWavelet(), formattedResult);
+            final Event event, final EngineResult result) {
+        responseStrategy.handleResult(bundle, blip, event, result);
     }
 
     void setEngineResultFormatter(

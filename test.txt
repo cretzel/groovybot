@@ -1,0 +1,6 @@
+total 8
+-rw-r--r--    1 Nick     Administ    11558 Oct 24 15:53 LICENSE.txt
+drwxr-xr-x    3 Nick     Administ        0 Oct 22 05:43 doc
+drwxr-xr-x    4 Nick     Administ        0 Oct 19 15:38 src
+-rw-r--r--    1 Nick     Administ        0 Nov  3 20:02 test.txt
+drwxr-xr-x    6 Nick     Administ     4096 Oct 30 08:23 war
