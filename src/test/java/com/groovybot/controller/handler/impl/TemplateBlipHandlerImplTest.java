@@ -11,6 +11,7 @@ import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
+import com.groovybot.controller.response.BlipHandlerResponseStrategy;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
 import com.groovybot.engine.result.EngineResult;
@@ -31,6 +32,8 @@ public class TemplateBlipHandlerImplTest {
     private GroovyEngineExecutionWrapperFactory engineExecutionWrapperFactoryMock;
     private GroovyEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
+    private BlipHandlerResponseStrategy responseStrategyMock;
+    
 
     @Before
     public void before() {
@@ -45,6 +48,7 @@ public class TemplateBlipHandlerImplTest {
         engineExecutionWrapperFactoryMock = mockery
                 .mock(GroovyEngineExecutionWrapperFactory.class);
         engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
+        responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
         handler = new TemplateBlipHandlerImpl();
 
         mockery.checking(new Expectations() {
@@ -58,7 +62,7 @@ public class TemplateBlipHandlerImplTest {
         handler
                 .setEngineExecutionWrapperFactory(engineExecutionWrapperFactoryMock);
 
-        handler.setEngineResultFormatter(resultFormatterMock);
+        handler.setResponseStrategy(responseStrategyMock);
         handler.setGroovyBotScriptExecutionEntityDao(daoMock);
     }
 
@@ -80,6 +84,8 @@ public class TemplateBlipHandlerImplTest {
                 one(engineWrapperMock).execute(code);
                 will(returnValue(engineResultMock));
 
+                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
+
                 allowing(eventMock);
                 allowing(daoMock);
                 allowing(resultFormatterMock);
@@ -90,7 +96,7 @@ public class TemplateBlipHandlerImplTest {
     }
 
     @Test
-    public void executeScript_GivenABlipWithPrefix_WillCallResultFormatter()
+    public void executeScript_GivenABlipWithPrefix_WillCallResponseStrategy()
             throws Exception {
         final String prefix = "!gtemplate";
         final String code = "def x = 10";
@@ -107,7 +113,7 @@ public class TemplateBlipHandlerImplTest {
                 allowing(eventMock);
                 allowing(daoMock);
 
-                allowing(resultFormatterMock).format(engineResultMock);
+                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
                 allowing(bundleMock);
             }
         });

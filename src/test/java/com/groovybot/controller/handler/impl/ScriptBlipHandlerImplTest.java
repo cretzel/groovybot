@@ -11,6 +11,7 @@ import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
+import com.groovybot.controller.response.BlipHandlerResponseStrategy;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
 import com.groovybot.engine.result.EngineResult;
@@ -31,6 +32,7 @@ public class ScriptBlipHandlerImplTest {
     private GroovyEngineExecutionWrapperFactory engineExecutionWrapperFactoryMock;
     private GroovyEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
+    private BlipHandlerResponseStrategy responseStrategyMock;
 
     @Before
     public void before() {
@@ -45,6 +47,7 @@ public class ScriptBlipHandlerImplTest {
         engineExecutionWrapperFactoryMock = mockery
                 .mock(GroovyEngineExecutionWrapperFactory.class);
         engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
+        responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
         handler = new ScriptBlipHandlerImpl();
 
         mockery.checking(new Expectations() {
@@ -58,7 +61,7 @@ public class ScriptBlipHandlerImplTest {
         handler
                 .setEngineExecutionWrapperFactory(engineExecutionWrapperFactoryMock);
 
-        handler.setEngineResultFormatter(resultFormatterMock);
+        handler.setResponseStrategy(responseStrategyMock);
         handler.setGroovyBotScriptExecutionEntityDao(daoMock);
     }
 
@@ -80,6 +83,7 @@ public class ScriptBlipHandlerImplTest {
                 one(engineWrapperMock).execute(code);
                 will(returnValue(engineResultMock));
 
+                allowing(responseStrategyMock);
                 allowing(eventMock);
                 allowing(daoMock);
                 allowing(resultFormatterMock);
@@ -107,7 +111,7 @@ public class ScriptBlipHandlerImplTest {
                 allowing(eventMock);
                 allowing(daoMock);
 
-                allowing(resultFormatterMock).format(engineResultMock);
+                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
                 allowing(bundleMock);
             }
         });

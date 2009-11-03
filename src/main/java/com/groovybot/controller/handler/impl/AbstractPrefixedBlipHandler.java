@@ -7,7 +7,6 @@ import com.google.wave.api.TextView;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
 import com.groovybot.controller.response.impl.AppendResultBlipToWaveStrategy;
 import com.groovybot.engine.result.EngineResult;
-import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
 
@@ -15,7 +14,7 @@ public abstract class AbstractPrefixedBlipHandler {
 
     private final String prefix;
     private ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao;
-    private final BlipHandlerResponseStrategy responseStrategy;
+    private BlipHandlerResponseStrategy responseStrategy;
 
     public AbstractPrefixedBlipHandler(final String prefix) {
         this.prefix = prefix;
@@ -59,14 +58,13 @@ public abstract class AbstractPrefixedBlipHandler {
         responseStrategy.handleResult(bundle, blip, event, result);
     }
 
-    void setEngineResultFormatter(
-            final EngineResultFormatter engineResultFormatter) {
-        this.engineResultFormatter = engineResultFormatter;
-    }
-
-    void setGroovyBotScriptExecutionEntityDao(
+    public void setGroovyBotScriptExecutionEntityDao(
             final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao) {
         this.groovyBotScriptExecutionEntityDao = groovyBotScriptExecutionEntityDao;
+    }
+
+    public void setResponseStrategy(final BlipHandlerResponseStrategy responseStrategy) {
+        this.responseStrategy = responseStrategy;
     }
 
 }
