@@ -9,16 +9,20 @@ import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
 import com.google.wave.api.Wavelet;
 import com.groovybot.controller.GroovyBotController;
+import com.groovybot.controller.handler.GadgetBlipHandler;
 import com.groovybot.controller.handler.ScriptBlipHandler;
 import com.groovybot.controller.handler.TemplateBlipHandler;
+import com.groovybot.controller.handler.impl.GadgetBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.ScriptBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.TemplateBlipHandlerImpl;
 import com.groovybot.util.BlipUtils;
+import com.groovybot.util.GroovyGadget;
 
 public class GroovyBotControllerImpl implements GroovyBotController {
 
     private final ScriptBlipHandler scriptBlipHandler;
     private final TemplateBlipHandler templateBlipHandler;
+    private final GadgetBlipHandler gadgetBlipHandler;
 
     private transient Logger logger;
 
@@ -32,6 +36,7 @@ public class GroovyBotControllerImpl implements GroovyBotController {
     public GroovyBotControllerImpl() {
         scriptBlipHandler = new ScriptBlipHandlerImpl();
         templateBlipHandler = new TemplateBlipHandlerImpl();
+        gadgetBlipHandler = new GadgetBlipHandlerImpl();
     }
 
     @Override
@@ -77,6 +82,14 @@ public class GroovyBotControllerImpl implements GroovyBotController {
 
         if (text.startsWith(TemplateBlipHandler.TEMPLATE_PREFIX)) {
             templateBlipHandler.handleBlip(bundle, blip, event);
+        }
+
+        if (document.getGadgetView().getGadget(GroovyGadget.GADGET_URL) != null) {
+            gadgetBlipHandler.handleBlip(bundle, blip, event);
+        }
+
+        if (text.startsWith(GadgetBlipHandler.ADD_GADGET_PREFIX)) {
+            gadgetBlipHandler.handleAddGadget(bundle, blip, event);
         }
 
     }

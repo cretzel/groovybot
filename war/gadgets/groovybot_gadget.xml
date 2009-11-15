@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<Module>
+<ModulePrefs title="Syntaxhighlighter" height="200" scrolling="true">
+  <Require feature="wave" /> 
+  <Require feature="dynamic-height"/>
+</ModulePrefs>
+<Content type="html">
+<![CDATA[
+ 
+<link type="text/css" rel="stylesheet" href="http://cretzelwave.appspot.com/res/syntaxhighlighter/css/SyntaxHighlighter.css"></link>
+<script language="javascript" src="http://cretzelwave.appspot.com/res/jquery.js"></script>
+<script language="javascript" src="http://cretzelwave.appspot.com/res/syntaxhighlighter/js/shCore.js"></script>
+<script language="javascript" src="http://cretzelwave.appspot.com/res/syntaxhighlighter/js/shBrushJava.js"></script>
+
+<style type="text/css">
+  	html, body, h1, h2, h3, p, div, span, b, it, table, tr, td, thead, tbody {
+  	    font-family: Bookman, Arial, sans-serif;
+  	}
+  	
+  	.gadget {
+  	    width: 100%;
+  	    border:1px solid black;
+  	    background-color: #aabbcc;
+  		padding: 6px;
+  	}
+  	
+  	.gadget .inputWrapper {
+	}
+  	.gadget .inputTextArea {
+  	    font-family: Courier New, sans-serif;
+  		width: 100%;
+  		height: 200px;
+  	}
+  	.gadget .outputWrapper {
+	}
+  	.gadget .outputTextArea {
+  	    font-family: Courier New, sans-serif;
+  		width: 100%;
+  		height: 200px;
+  	}
+  	
+  	.gadget .toolbarWrapper {
+  		padding: 2px;
+  	}
+  	.gadget .toolbar {
+  	}
+  	.gadget .tool {
+  		float:left;
+  		color: #fefefe;
+  		margin: 0px 4px;
+  		padding: 6px 8px;
+  		-moz-border-radius: 4px;
+  		-webkit-border-radius: 4px;
+  		border: 1px solid #def;
+  		cursor: pointer;
+  	}
+  	.toolmouseover {
+  		background-color: #667788;
+  	}
+  	.toolnonmouseover {
+  		background-color: #556677;
+  	}
+  	.toolmousedown {
+  		background-color: #445566;
+  	}
+</style>
+
+	<div class="gadget">
+		<div class="inputWrapper">
+			<textarea class="inputTextArea"></textarea>
+		</div>
+		<div class="toolbarWrapper">
+			<div class="toolbar">
+				<div class="tool toolnonmouseover runbutton">Run</div>
+				<div class="tool toolnonmouseover clearbutton">Clear</div>
+			</div>
+			<div style="clear:both"></div>
+		</div>
+		<div class="outputWrapper">
+			<textarea class="outputTextArea">
+			</textarea>
+		</div>
+	
+	</div>
+
+
+<script type="text/javascript">
+    dp.SyntaxHighlighter.ClipboardSwf = 'http://cretzelwave.appspot.com/res/syntaxhighlighter/js/flash/clipboard.swf';
+    dp.SyntaxHighlighter.HighlightAll('code');
+	$(".tool").mouseover(function() {
+		$(this).toggleClass("toolnonmouseover");
+		$(this).toggleClass("toolmouseover");
+	});
+	$(".tool").mouseout(function() {
+		$(this).toggleClass("toolnonmouseover");
+		$(this).toggleClass("toolmouseover");
+		$(this).removeClass("toolmousedown");
+	});
+	$(".tool").mousedown(function() {
+		$(this).addClass("toolmousedown");
+	});
+	$(".tool").mouseup(function() {
+		$(this).removeClass("toolmousedown");
+	});
+
+	$(".clearbutton").click(function() {
+		$(".inputTextArea").html("");
+		updateCodeState();
+		$(".outputTextArea").html("");
+	});
+	
+	$(".runbutton").click(function() {
+        updateCodeState();
+        wave.getState().submitDelta({'run': 'true'});
+	});
+
+    function updateCodeState() {
+      var code = $(".inputTextArea")[0].value;
+      wave.getState().submitDelta({'code': code});
+    }
+
+	//$(".inputTextArea").keyup(function() {
+	//});
+	
+	// Just to be sure
+	//$(".inputTextArea").click(function() {
+	//	$(".inputTextArea").html(wave.getState().get('code'));
+	//});
+
+    function stateUpdated() {
+      var code = wave.getState().get('code');
+      if(code) {
+	      $(".inputTextArea").html(code);
+      } 
+      
+      var output = wave.getState().get('output');
+      if(output) {
+		$(".outputTextArea").html(output);
+      }
+    }
+ 
+    function init() {
+      if (wave && wave.isInWaveContainer()) {
+        wave.setStateCallback(stateUpdated);
+      }
+    }
+    gadgets.util.registerOnLoadHandler(init);
+
+    gadgets.window.adjustHeight();
+
+</script>
+  ]]> 
+  </Content>
+</Module>
+

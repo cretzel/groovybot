@@ -6,6 +6,8 @@ import com.google.appengine.repackaged.com.google.common.base.Predicate;
 import com.google.appengine.repackaged.com.google.common.collect.Iterables;
 import com.google.appengine.repackaged.com.google.common.collect.Lists;
 import com.google.wave.api.Blip;
+import com.google.wave.api.Gadget;
+import com.google.wave.api.GadgetView;
 import com.google.wave.api.Wavelet;
 import com.groovybot.GroovyBotApplication;
 
@@ -39,7 +41,8 @@ public final class BlipUtils {
 
             @Override
             public boolean apply(final Blip blip) {
-                GroovyBotApplication.getLogger().info("creator: " + blip.getCreator());
+                GroovyBotApplication.getLogger().info(
+                        "creator: " + blip.getCreator());
                 return GroovyBotApplication.ROBOT_EMAIL.equals(blip
                         .getCreator());
             }
@@ -63,6 +66,25 @@ public final class BlipUtils {
         final Blip inlineBlip = blip.getDocument().appendInlineBlip();
         inlineBlip.getDocument().append(text);
         return inlineBlip;
+    }
+
+    public static GroovyGadget getOrAppendToBlip(final Blip blip) {
+        GroovyGadget groovyGadget = getGroovyGadget(blip);
+
+        if (groovyGadget == null) {
+            groovyGadget = GroovyGadget.newInstance();
+            final GadgetView gadgetView = blip.getDocument().getGadgetView();
+            gadgetView.append(groovyGadget.getGadget());
+            return groovyGadget;
+        }
+
+        return groovyGadget;
+    }
+
+    public static GroovyGadget getGroovyGadget(final Blip blip) {
+        final Gadget gadget = blip.getDocument().getGadgetView().getGadget(
+                GroovyGadget.GADGET_URL);
+        return gadget != null ? GroovyGadget.fromGadget(gadget) : null;
     }
 
 }
