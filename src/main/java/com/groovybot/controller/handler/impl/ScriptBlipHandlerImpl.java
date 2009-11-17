@@ -5,6 +5,7 @@ import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
 import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
 import com.groovybot.engine.result.EngineResult;
+import com.groovybot.model.ScriptExecutionType;
 
 public class ScriptBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements ScriptBlipHandler {
@@ -14,6 +15,11 @@ public class ScriptBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
     public ScriptBlipHandlerImpl() {
         super(ScriptBlipHandler.SCRIPT_PREFIX);
         setEngineExecutionWrapperFactory(new GroovyEngineExecutionWrapperFactoryImpl());
+    }
+
+    @Override
+    protected ScriptExecutionType getScriptExecutionType() {
+        return ScriptExecutionType.SCRIPT_BLIP;
     }
 
     @Override

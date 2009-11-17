@@ -9,7 +9,8 @@ import com.groovybot.persistence.ScriptExecutionEntityDao;
 
 public class ScriptExecutionEntityDaoImpl implements ScriptExecutionEntityDao {
 
-    public ScriptExecutionEntity makePersistent(final ScriptExecutionEntity entry) {
+    public ScriptExecutionEntity makePersistent(
+            final ScriptExecutionEntity entry) {
         final PersistenceManager pm = getPersistenceManager();
         try {
             return getPersistenceManager().makePersistent(entry);
@@ -19,10 +20,10 @@ public class ScriptExecutionEntityDaoImpl implements ScriptExecutionEntityDao {
     }
 
     @Override
-    public ScriptExecutionEntity createBlipScriptEntry(final String participantId,
-            final String script) {
-        final ScriptExecutionEntity entity = new ScriptExecutionEntity(participantId,
-                script, ScriptExecutionType.SCRIPT_BLIP);
+    public ScriptExecutionEntity createEntry(final String participantId,
+            final String script, final ScriptExecutionType type) {
+        final ScriptExecutionEntity entity = new ScriptExecutionEntity(
+                participantId, script, type);
         return makePersistent(entity);
     }
 

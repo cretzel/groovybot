@@ -8,6 +8,7 @@ import com.groovybot.controller.response.impl.AppendResultInlineBlipStrategy;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
+import com.groovybot.model.ScriptExecutionType;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
 
@@ -37,9 +38,11 @@ public abstract class AbstractPrefixedEngineBlipHandler extends
     private void persistExecutionEntry(final Event event, final String script,
             final EngineResult result) {
         // TODO move to service layer
-        groovyBotScriptExecutionEntityDao.createBlipScriptEntry(event
-                .getModifiedBy(), script);
+        groovyBotScriptExecutionEntityDao.createEntry(event.getModifiedBy(),
+                script, getScriptExecutionType());
     }
+
+    protected abstract ScriptExecutionType getScriptExecutionType();
 
     protected abstract EngineResult executeScript(String script);
 

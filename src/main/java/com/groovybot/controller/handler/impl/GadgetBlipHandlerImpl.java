@@ -12,6 +12,7 @@ import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
+import com.groovybot.model.ScriptExecutionType;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
 import com.groovybot.util.BlipUtils;
 import com.groovybot.util.GroovyGadget;
@@ -36,8 +37,8 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
     }
 
     @Override
-    public void handlePrefixedBlip(final RobotMessageBundle bundle, final Blip blip,
-            final Event event) {
+    public void handlePrefixedBlip(final RobotMessageBundle bundle,
+            final Blip blip, final Event event) {
         Preconditions.checkArgument(blip.getDocument().getText().startsWith(
                 ADD_GADGET_PREFIX),
                 "Gadget does not start with ADD_GADGET_PREFIX");
@@ -59,8 +60,8 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
         if (groovyGadget.isRunCall()) {
             final String code = groovyGadget.getInput();
             if (code != null) {
-                groovyBotScriptExecutionEntityDao.createBlipScriptEntry(event
-                        .getModifiedBy(), code);
+                groovyBotScriptExecutionEntityDao.createEntry(event
+                        .getModifiedBy(), code, ScriptExecutionType.GADGET);
                 final EngineResult result = executeScript(code);
 
                 // TODO Replace gadget with a new instance. Workaround for bug.
