@@ -33,7 +33,6 @@ public class TemplateBlipHandlerImplTest {
     private GroovyEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
     private BlipHandlerResponseStrategy responseStrategyMock;
-    
 
     @Before
     public void before() {
@@ -84,15 +83,17 @@ public class TemplateBlipHandlerImplTest {
                 one(engineWrapperMock).execute(code);
                 will(returnValue(engineResultMock));
 
-                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
+                one(responseStrategyMock).handleResult(with(bundleMock), with(blipMock),
+                        with(eventMock), with(any(String.class)));
 
                 allowing(eventMock);
+                allowing(engineResultMock);
                 allowing(daoMock);
                 allowing(resultFormatterMock);
                 allowing(bundleMock);
             }
         });
-        handler.handleBlip(bundleMock, blipMock, eventMock);
+        handler.handlePrefixedBlip(bundleMock, blipMock, eventMock);
     }
 
     @Test
@@ -106,18 +107,23 @@ public class TemplateBlipHandlerImplTest {
             {
                 allowing(blipMock).getDocument();
                 will(returnValue(documentMock));
+                
                 allowing(documentMock).getText();
                 will(returnValue(blipText));
+                
                 allowing(engineWrapperMock).execute(with(any(String.class)));
                 will(returnValue(engineResultMock));
+                
                 allowing(eventMock);
                 allowing(daoMock);
-
-                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
+                allowing(engineResultMock);
+                
+                one(responseStrategyMock).handleResult(with(bundleMock), with(blipMock),
+                        with(eventMock), with(any(String.class)));
                 allowing(bundleMock);
             }
         });
-        handler.handleBlip(bundleMock, blipMock, eventMock);
+        handler.handlePrefixedBlip(bundleMock, blipMock, eventMock);
     }
 
 }

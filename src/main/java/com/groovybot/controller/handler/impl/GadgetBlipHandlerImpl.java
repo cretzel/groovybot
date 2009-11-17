@@ -30,8 +30,14 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
     }
 
     @Override
-    public void handleAddGadget(final RobotMessageBundle bundle,
-            final Blip blip, final Event event) {
+    public boolean accepts(final RobotMessageBundle bundle, final Blip blip,
+            final Event event) {
+        return blip.getDocument().getText().startsWith(ADD_GADGET_PREFIX);
+    }
+
+    @Override
+    public void handlePrefixedBlip(final RobotMessageBundle bundle, final Blip blip,
+            final Event event) {
         Preconditions.checkArgument(blip.getDocument().getText().startsWith(
                 ADD_GADGET_PREFIX),
                 "Gadget does not start with ADD_GADGET_PREFIX");
@@ -45,7 +51,7 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
     }
 
     @Override
-    public void handleBlip(final RobotMessageBundle bundle, final Blip blip,
+    public void handleGadget(final RobotMessageBundle bundle, final Blip blip,
             final Event event) {
         final GroovyGadget groovyGadget = BlipUtils.getGroovyGadget(blip);
         Preconditions.checkNotNull(groovyGadget, "No GroovyGadget found");

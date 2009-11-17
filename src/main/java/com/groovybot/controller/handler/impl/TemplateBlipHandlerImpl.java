@@ -6,7 +6,7 @@ import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
 import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
 import com.groovybot.engine.result.EngineResult;
 
-public class TemplateBlipHandlerImpl extends AbstractPrefixedBlipHandler
+public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements TemplateBlipHandler {
 
     private GroovyEngineExecutionWrapper engineExecutionWrapper;

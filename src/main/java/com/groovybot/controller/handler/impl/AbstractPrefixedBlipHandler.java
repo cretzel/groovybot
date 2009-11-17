@@ -4,69 +4,48 @@ import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
-import com.groovybot.controller.response.BlipHandlerResponseStrategy;
-import com.groovybot.controller.response.impl.AppendResultInlineBlipStrategy;
-import com.groovybot.engine.result.EngineResult;
-import com.groovybot.persistence.ScriptExecutionEntityDao;
-import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
+import com.groovybot.controller.handler.PrefixedBlipHandler;
 
-public abstract class AbstractPrefixedBlipHandler {
+public abstract class AbstractPrefixedBlipHandler implements
+        PrefixedBlipHandler {
 
     private final String prefix;
-    private ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao;
-    private BlipHandlerResponseStrategy responseStrategy;
 
     public AbstractPrefixedBlipHandler(final String prefix) {
         this.prefix = prefix;
-        groovyBotScriptExecutionEntityDao = new ScriptExecutionEntityDaoImpl();
-        // responseStrategy = new AppendResultBlipToWaveStrategy();
-        responseStrategy = new AppendResultInlineBlipStrategy();
     }
 
-    public void handleBlip(final RobotMessageBundle bundle, final Blip blip,
+    @Override
+    public boolean accepts(final RobotMessageBundle bundle, final Blip blip,
+            final Event event) {
+        return startsWithPrefix(blip);
+    }
+
+    public void handlePrefixedBlip(final RobotMessageBundle bundle, final Blip blip,
             final Event event) {
         assertStartsWithPrefix(blip);
         final String script = stripBlipPrefix(blip);
 
-        final EngineResult result = executeScript(script);
-        persistExecutionEntry(event, script, result);
-        handleResult(bundle, blip, event, result);
+        handleBlipContent(bundle, blip, event, script);
     }
 
+    protected abstract void handleBlipContent(final RobotMessageBundle bundle,
+            final Blip blip, final Event event, final String script);
+
     private void assertStartsWithPrefix(final Blip blip) {
-        if (!blip.getDocument().getText().startsWith(prefix)) {
+        if (!startsWithPrefix(blip)) {
             throw new IllegalArgumentException("This is not a script blip");
         }
+    }
+
+    private boolean startsWithPrefix(final Blip blip) {
+        return blip.getDocument().getText().startsWith(prefix);
     }
 
     private String stripBlipPrefix(final Blip blip) {
         final TextView document = blip.getDocument();
         final String text = document.getText();
         return text.substring(prefix.length());
-    }
-
-    private void persistExecutionEntry(final Event event, final String script,
-            final EngineResult result) {
-        // TODO move to service layer
-        groovyBotScriptExecutionEntityDao.createBlipScriptEntry(event
-                .getModifiedBy(), script);
-    }
-
-    protected abstract EngineResult executeScript(String script);
-
-    public void handleResult(final RobotMessageBundle bundle, final Blip blip,
-            final Event event, final EngineResult result) {
-        responseStrategy.handleResult(bundle, blip, event, result);
-    }
-
-    public void setGroovyBotScriptExecutionEntityDao(
-            final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao) {
-        this.groovyBotScriptExecutionEntityDao = groovyBotScriptExecutionEntityDao;
-    }
-
-    public void setResponseStrategy(
-            final BlipHandlerResponseStrategy responseStrategy) {
-        this.responseStrategy = responseStrategy;
     }
 
 }

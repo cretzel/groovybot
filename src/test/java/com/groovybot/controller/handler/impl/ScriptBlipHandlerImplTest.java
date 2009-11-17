@@ -83,6 +83,7 @@ public class ScriptBlipHandlerImplTest {
                 one(engineWrapperMock).execute(code);
                 will(returnValue(engineResultMock));
 
+                allowing(engineResultMock);
                 allowing(responseStrategyMock);
                 allowing(eventMock);
                 allowing(daoMock);
@@ -90,7 +91,7 @@ public class ScriptBlipHandlerImplTest {
                 allowing(bundleMock);
             }
         });
-        handler.handleBlip(bundleMock, blipMock, eventMock);
+        handler.handlePrefixedBlip(bundleMock, blipMock, eventMock);
     }
 
     @Test
@@ -107,15 +108,16 @@ public class ScriptBlipHandlerImplTest {
                 allowing(documentMock).getText();
                 will(returnValue(blipText));
                 allowing(engineWrapperMock).execute(with(any(String.class)));
-                will(returnValue(engineResultMock));
+                allowing(engineResultMock);
                 allowing(eventMock);
                 allowing(daoMock);
 
-                one(responseStrategyMock).handleResult(bundleMock, blipMock, eventMock, engineResultMock);
+                one(responseStrategyMock).handleResult(bundleMock, blipMock,
+                        eventMock, with(any(String.class)));
                 allowing(bundleMock);
             }
         });
-        handler.handleBlip(bundleMock, blipMock, eventMock);
+        handler.handlePrefixedBlip(bundleMock, blipMock, eventMock);
     }
 
 }
