@@ -4,6 +4,7 @@ import java.util.logging.Logger;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.groovybot.guice.DefaultGuiceModule;
 
 public final class GroovyBotApplication {
 
@@ -12,7 +13,6 @@ public final class GroovyBotApplication {
     private static final ThreadLocal<GroovyBotApplication> holder = new ThreadLocal<GroovyBotApplication>();
 
     private transient Logger logger;
-
 
     private Injector injector;
 

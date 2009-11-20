@@ -7,22 +7,26 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Key;
 import com.groovybot.controller.GroovyBotController;
-import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
+import com.groovybot.guice.ShellWrapper;
 
 public class TestServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private EngineResultFormatter formatter;
-    private GroovyShellEngineExecutionWrapper engineWrapper;
+    private GroovyEngineExecutionWrapper engineWrapper;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        engineWrapper = GroovyBotApplication.get().getInjector().getInstance(
-                GroovyShellEngineExecutionWrapper.class);
+        engineWrapper = GroovyBotApplication.get().getInjector()
+                .getInstance(
+                        Key.get(GroovyEngineExecutionWrapper.class,
+                                ShellWrapper.class));
         formatter = GroovyBotApplication.get().getInjector().getInstance(
                 EngineResultFormatter.class);
     }
@@ -49,12 +53,11 @@ public class TestServlet extends HttpServlet {
             final EngineResult result = engineWrapper.execute(input);
             resp.getWriter().println(formatter.format(result));
         }
-        
-        final GroovyBotController botController = GroovyBotApplication.get().getInjector().getInstance(
-                GroovyBotController.class);
+
+        final GroovyBotController botController = GroovyBotApplication.get()
+                .getInjector().getInstance(GroovyBotController.class);
 
         System.err.println("foo");
-        
 
     }
 

@@ -7,9 +7,10 @@ import com.google.wave.api.Event;
 import com.google.wave.api.Gadget;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.handler.GadgetBlipHandler;
-import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
+import com.groovybot.guice.ShellWrapper;
 import com.groovybot.model.ScriptExecutionType;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.util.BlipUtils;
@@ -17,13 +18,13 @@ import com.groovybot.util.GroovyGadget;
 
 public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
 
-    private final GroovyShellEngineExecutionWrapper engineWrapper;
+    private final GroovyEngineExecutionWrapper engineWrapper;
     private final EngineResultFormatter engineResultFormatter;
     private final ScriptExecutionEntityDao scriptExecutionDao;
 
     @Inject
     public GadgetBlipHandlerImpl(
-            final GroovyShellEngineExecutionWrapper engineWrapper,
+            final @ShellWrapper GroovyEngineExecutionWrapper engineWrapper,
             final EngineResultFormatter engineResultFormatter,
             final ScriptExecutionEntityDao scriptExecutionDao) {
         super();

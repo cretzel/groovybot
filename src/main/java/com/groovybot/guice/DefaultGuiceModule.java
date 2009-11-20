@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.groovybot;
+package com.groovybot.guice;
 
 import com.google.inject.AbstractModule;
 import com.groovybot.controller.GroovyBotController;
@@ -14,10 +14,9 @@ import com.groovybot.controller.handler.impl.HelpBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.ScriptBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.TemplateBlipHandlerImpl;
 import com.groovybot.controller.impl.GroovyBotControllerImpl;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.GroovyShellEngine;
-import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
 import com.groovybot.engine.GroovyTemplateEngine;
-import com.groovybot.engine.GroovyTemplateEngineExecutionWrapper;
 import com.groovybot.engine.impl.GroovyShellEngineExecutionWrapperImpl;
 import com.groovybot.engine.impl.GroovyShellEngineImpl;
 import com.groovybot.engine.impl.GroovyTemplateEngineExecutionWrapperImpl;
@@ -27,15 +26,17 @@ import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
 
-final class DefaultGuiceModule extends AbstractModule {
+public final class DefaultGuiceModule extends AbstractModule {
 
     @Override
     protected void configure() {
         // Engine
         bind(EngineResultFormatter.class).to(EngineResultFormatterImpl.class);
-        bind(GroovyTemplateEngineExecutionWrapper.class).to(
+        bind(GroovyEngineExecutionWrapper.class).annotatedWith(
+                TemplateWrapper.class).to(
                 GroovyTemplateEngineExecutionWrapperImpl.class);
-        bind(GroovyShellEngineExecutionWrapper.class).to(
+        bind(GroovyEngineExecutionWrapper.class).annotatedWith(
+                ShellWrapper.class).to(
                 GroovyShellEngineExecutionWrapperImpl.class);
         bind(GroovyTemplateEngine.class).to(GroovyTemplateEngineImpl.class);
         bind(GroovyShellEngine.class).to(GroovyShellEngineImpl.class);

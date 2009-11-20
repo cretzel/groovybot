@@ -15,7 +15,7 @@ import com.groovybot.engine.result.EngineResult;
 
 public class GroovyEngineTest {
 
-    private GroovyShellEngineExecutionWrapper engineWrapper;
+    private GroovyEngineExecutionWrapper engineWrapper;
 
     @Before
     public void before() {

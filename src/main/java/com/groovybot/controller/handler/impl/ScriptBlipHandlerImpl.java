@@ -2,18 +2,19 @@ package com.groovybot.controller.handler.impl;
 
 import com.google.inject.Inject;
 import com.groovybot.controller.handler.ScriptBlipHandler;
-import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
+import com.groovybot.guice.ShellWrapper;
 import com.groovybot.model.ScriptExecutionType;
 
 public class ScriptBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements ScriptBlipHandler {
 
-    private final GroovyShellEngineExecutionWrapper engineExecutionWrapper;
+    private final GroovyEngineExecutionWrapper engineExecutionWrapper;
 
     @Inject
     public ScriptBlipHandlerImpl(
-            final GroovyShellEngineExecutionWrapper engineExecutionWrapper) {
+            final @ShellWrapper GroovyEngineExecutionWrapper engineExecutionWrapper) {
         super(ScriptBlipHandler.SCRIPT_PREFIX);
         this.engineExecutionWrapper = engineExecutionWrapper;
     }

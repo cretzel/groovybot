@@ -2,18 +2,19 @@ package com.groovybot.controller.handler.impl;
 
 import com.google.inject.Inject;
 import com.groovybot.controller.handler.TemplateBlipHandler;
-import com.groovybot.engine.GroovyTemplateEngineExecutionWrapper;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
+import com.groovybot.guice.TemplateWrapper;
 import com.groovybot.model.ScriptExecutionType;
 
 public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements TemplateBlipHandler {
 
-    private final GroovyTemplateEngineExecutionWrapper engineExecutionWrapper;
+    private final GroovyEngineExecutionWrapper engineExecutionWrapper;
 
     @Inject
     public TemplateBlipHandlerImpl(
-            final GroovyTemplateEngineExecutionWrapper engineExecutionWrapper) {
+            final @TemplateWrapper GroovyEngineExecutionWrapper engineExecutionWrapper) {
         super(TemplateBlipHandler.TEMPLATE_PREFIX);
         this.engineExecutionWrapper = engineExecutionWrapper;
     }

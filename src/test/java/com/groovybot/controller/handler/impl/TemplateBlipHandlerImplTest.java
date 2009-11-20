@@ -12,7 +12,7 @@ import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
-import com.groovybot.engine.GroovyTemplateEngineExecutionWrapper;
+import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
@@ -28,7 +28,7 @@ public class TemplateBlipHandlerImplTest {
     private EngineResult engineResultMock;
     private ScriptExecutionEntityDao daoMock;
     private Event eventMock;
-    private GroovyTemplateEngineExecutionWrapper engineWrapperMock;
+    private GroovyEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
     private BlipHandlerResponseStrategy responseStrategyMock;
 
@@ -42,8 +42,7 @@ public class TemplateBlipHandlerImplTest {
         engineResultMock = mockery.mock(EngineResult.class);
         daoMock = mockery.mock(ScriptExecutionEntityDao.class);
         eventMock = mockery.mock(Event.class);
-        engineWrapperMock = mockery
-                .mock(GroovyTemplateEngineExecutionWrapper.class);
+        engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
         responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
         handler = new TemplateBlipHandlerImpl(engineWrapperMock);
 
