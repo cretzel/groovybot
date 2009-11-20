@@ -3,9 +3,11 @@ package com.groovybot.engine.result.impl;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
+import com.google.inject.Singleton;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 
+@Singleton
 public class EngineResultFormatterImpl implements EngineResultFormatter {
 
     @Override

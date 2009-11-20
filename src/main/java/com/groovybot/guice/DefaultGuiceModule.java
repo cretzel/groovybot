@@ -14,6 +14,8 @@ import com.groovybot.controller.handler.impl.HelpBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.ScriptBlipHandlerImpl;
 import com.groovybot.controller.handler.impl.TemplateBlipHandlerImpl;
 import com.groovybot.controller.impl.GroovyBotControllerImpl;
+import com.groovybot.controller.response.BlipHandlerResponseStrategy;
+import com.groovybot.controller.response.impl.AppendResultInlineBlipStrategy;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.GroovyShellEngine;
 import com.groovybot.engine.GroovyTemplateEngine;
@@ -40,7 +42,11 @@ public final class DefaultGuiceModule extends AbstractModule {
                 GroovyShellEngineExecutionWrapperImpl.class);
         bind(GroovyTemplateEngine.class).to(GroovyTemplateEngineImpl.class);
         bind(GroovyShellEngine.class).to(GroovyShellEngineImpl.class);
-
+        bind(BlipHandlerResponseStrategy.class).to(
+                AppendResultInlineBlipStrategy.class);
+        // bind(BlipHandlerResponseStrategy.class).to(
+        // AppendResultBlipToWaveStrategy.class);
+        
         // TODO another Module?
         bind(ScriptExecutionEntityDao.class).to(
                 ScriptExecutionEntityDaoImpl.class);

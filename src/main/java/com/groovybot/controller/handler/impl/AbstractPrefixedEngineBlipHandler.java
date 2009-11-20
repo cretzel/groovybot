@@ -4,27 +4,26 @@ import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
-import com.groovybot.controller.response.impl.AppendResultInlineBlipStrategy;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
-import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 import com.groovybot.model.ScriptExecutionType;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
-import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
 
 public abstract class AbstractPrefixedEngineBlipHandler extends
         AbstractPrefixedBlipHandler {
 
-    private ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao;
-    private BlipHandlerResponseStrategy responseStrategy;
-    private EngineResultFormatter engineResultFormatter;
+    private final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao;
+    private final BlipHandlerResponseStrategy responseStrategy;
+    private final EngineResultFormatter engineResultFormatter;
 
-    public AbstractPrefixedEngineBlipHandler(final String prefix) {
+    public AbstractPrefixedEngineBlipHandler(final String prefix,
+            final BlipHandlerResponseStrategy responseStrategy,
+            final EngineResultFormatter engineResultFormatter,
+            final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao) {
         super(prefix);
-        groovyBotScriptExecutionEntityDao = new ScriptExecutionEntityDaoImpl();
-        // responseStrategy = new AppendResultBlipToWaveStrategy();
-        responseStrategy = new AppendResultInlineBlipStrategy();
-        engineResultFormatter = new EngineResultFormatterImpl();
+        this.responseStrategy = responseStrategy;
+        this.engineResultFormatter = engineResultFormatter;
+        this.groovyBotScriptExecutionEntityDao = groovyBotScriptExecutionEntityDao;
     }
 
     @Override
@@ -50,21 +49,6 @@ public abstract class AbstractPrefixedEngineBlipHandler extends
             final Event event, final EngineResult result) {
         final String formattedResult = engineResultFormatter.format(result);
         responseStrategy.handleResult(bundle, blip, event, formattedResult);
-    }
-
-    public void setGroovyBotScriptExecutionEntityDao(
-            final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao) {
-        this.groovyBotScriptExecutionEntityDao = groovyBotScriptExecutionEntityDao;
-    }
-
-    public void setResponseStrategy(
-            final BlipHandlerResponseStrategy responseStrategy) {
-        this.responseStrategy = responseStrategy;
-    }
-
-    public void setEngineResultFormatter(
-            final EngineResultFormatter engineResultFormatter) {
-        this.engineResultFormatter = engineResultFormatter;
     }
 
 }

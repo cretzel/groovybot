@@ -1,11 +1,13 @@
 package com.groovybot.controller.response.impl;
 
+import com.google.inject.Singleton;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
 import com.groovybot.util.BlipUtils;
 
+@Singleton
 public class AppendResultBlipToWaveStrategy implements
         BlipHandlerResponseStrategy {
 

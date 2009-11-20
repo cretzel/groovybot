@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.Injector;
 import com.google.inject.Key;
 import com.groovybot.controller.GroovyBotController;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
@@ -23,12 +24,10 @@ public class TestServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        engineWrapper = GroovyBotApplication.get().getInjector()
-                .getInstance(
-                        Key.get(GroovyEngineExecutionWrapper.class,
-                                ShellWrapper.class));
-        formatter = GroovyBotApplication.get().getInjector().getInstance(
-                EngineResultFormatter.class);
+        final Injector injector = GroovyBotApplication.get().getInjector();
+        engineWrapper = injector.getInstance(Key.get(
+                GroovyEngineExecutionWrapper.class, ShellWrapper.class));
+        formatter = injector.getInstance(EngineResultFormatter.class);
     }
 
     @Override

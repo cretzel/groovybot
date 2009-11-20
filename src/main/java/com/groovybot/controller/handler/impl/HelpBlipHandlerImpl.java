@@ -1,11 +1,13 @@
 package com.groovybot.controller.handler.impl;
 
+import com.google.inject.Singleton;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.handler.HelpBlipHandler;
 import com.groovybot.util.BlipUtils;
 
+@Singleton
 public class HelpBlipHandlerImpl extends AbstractPrefixedBlipHandler implements
         HelpBlipHandler {
 

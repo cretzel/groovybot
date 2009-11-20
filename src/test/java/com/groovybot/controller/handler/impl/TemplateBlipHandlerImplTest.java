@@ -44,10 +44,9 @@ public class TemplateBlipHandlerImplTest {
         eventMock = mockery.mock(Event.class);
         engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
         responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
-        handler = new TemplateBlipHandlerImpl(engineWrapperMock);
+        handler = new TemplateBlipHandlerImpl(engineWrapperMock,
+                responseStrategyMock, resultFormatterMock, daoMock);
 
-        handler.setResponseStrategy(responseStrategyMock);
-        handler.setGroovyBotScriptExecutionEntityDao(daoMock);
     }
 
     @Test
@@ -77,6 +76,7 @@ public class TemplateBlipHandlerImplTest {
                 allowing(daoMock);
                 allowing(resultFormatterMock);
                 allowing(bundleMock);
+                allowing(resultFormatterMock);
             }
         });
         handler.handlePrefixedBlip(bundleMock, blipMock, eventMock);
@@ -103,6 +103,7 @@ public class TemplateBlipHandlerImplTest {
                 allowing(eventMock);
                 allowing(daoMock);
                 allowing(engineResultMock);
+                allowing(resultFormatterMock);
 
                 one(responseStrategyMock).handleResult(with(bundleMock),
                         with(blipMock), with(eventMock),

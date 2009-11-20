@@ -3,8 +3,10 @@ package com.groovybot.engine.impl;
 import groovy.lang.Binding;
 import groovy.lang.GroovyShell;
 
+import com.google.inject.Singleton;
 import com.groovybot.engine.GroovyShellEngine;
 
+@Singleton
 public class GroovyShellEngineImpl implements GroovyShellEngine {
 
     public GroovyShellEngineImpl() {

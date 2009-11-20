@@ -4,8 +4,10 @@ import groovy.lang.Binding;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
 
+import com.google.inject.Singleton;
 import com.groovybot.engine.GroovyTemplateEngine;
 
+@Singleton
 public class GroovyTemplateEngineImpl implements GroovyTemplateEngine {
 
     public GroovyTemplateEngineImpl() {

@@ -1,12 +1,17 @@
 package com.groovybot.controller.handler.impl;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.groovybot.controller.handler.TemplateBlipHandler;
+import com.groovybot.controller.response.BlipHandlerResponseStrategy;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
+import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.guice.TemplateWrapper;
 import com.groovybot.model.ScriptExecutionType;
+import com.groovybot.persistence.ScriptExecutionEntityDao;
 
+@Singleton
 public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements TemplateBlipHandler {
 
@@ -14,8 +19,12 @@ public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
 
     @Inject
     public TemplateBlipHandlerImpl(
-            final @TemplateWrapper GroovyEngineExecutionWrapper engineExecutionWrapper) {
-        super(TemplateBlipHandler.TEMPLATE_PREFIX);
+            final @TemplateWrapper GroovyEngineExecutionWrapper engineExecutionWrapper,
+            final BlipHandlerResponseStrategy responseStrategy,
+            final EngineResultFormatter engineResultFormatter,
+            final ScriptExecutionEntityDao groovyBotScriptExecutionEntityDao) {
+        super(TemplateBlipHandler.TEMPLATE_PREFIX, responseStrategy,
+                engineResultFormatter, groovyBotScriptExecutionEntityDao);
         this.engineExecutionWrapper = engineExecutionWrapper;
     }
 

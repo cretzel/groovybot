@@ -2,11 +2,13 @@ package com.groovybot.persistence.impl;
 
 import javax.jdo.PersistenceManager;
 
+import com.google.inject.Singleton;
 import com.groovybot.model.ScriptExecutionEntity;
 import com.groovybot.model.ScriptExecutionType;
 import com.groovybot.persistence.PMF;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 
+@Singleton
 public class ScriptExecutionEntityDaoImpl implements ScriptExecutionEntityDao {
 
     public ScriptExecutionEntity makePersistent(

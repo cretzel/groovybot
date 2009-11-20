@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.inject.internal.Lists;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
@@ -20,6 +21,7 @@ import com.groovybot.controller.handler.TemplateBlipHandler;
 import com.groovybot.util.BlipUtils;
 import com.groovybot.util.GroovyGadget;
 
+@Singleton
 public class GroovyBotControllerImpl implements GroovyBotController {
 
     private final GadgetBlipHandler gadgetBlipHandler;

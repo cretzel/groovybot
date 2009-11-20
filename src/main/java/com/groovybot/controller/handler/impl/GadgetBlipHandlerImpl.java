@@ -2,6 +2,7 @@ package com.groovybot.controller.handler.impl;
 
 import com.google.appengine.repackaged.com.google.common.base.Preconditions;
 import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.Gadget;
@@ -16,6 +17,7 @@ import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.util.BlipUtils;
 import com.groovybot.util.GroovyGadget;
 
+@Singleton
 public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
 
     private final GroovyEngineExecutionWrapper engineWrapper;
