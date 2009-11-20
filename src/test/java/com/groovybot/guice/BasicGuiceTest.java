@@ -1,5 +1,7 @@
 package com.groovybot.guice;
 
+import static junit.framework.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,7 +28,6 @@ public class BasicGuiceTest {
         final GroovyEngine instance2 = injector
                 .getInstance(GroovyShellEngine.class);
 
-        System.err.println(instance1.hashCode());
-        System.err.println(instance2.hashCode());
+        assertTrue(instance1.hashCode() == instance2.hashCode());
     }
 }
