@@ -8,6 +8,8 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
+import com.google.appengine.api.datastore.Text;
+
 @PersistenceCapable(identityType = IdentityType.APPLICATION)
 public class ScriptExecutionEntity {
 
@@ -18,8 +20,8 @@ public class ScriptExecutionEntity {
     @Persistent
     private String participantId;
 
-    @Persistent
-    private String script;
+    @Persistent()
+    private Text script;
 
     @Persistent
     private Date executionDate;
@@ -31,7 +33,7 @@ public class ScriptExecutionEntity {
             final ScriptExecutionType type) {
         super();
         this.participantId = participantId;
-        this.script = script;
+        this.script = new Text(script);
         this.type = type;
         this.executionDate = new Date();
     }
@@ -48,11 +50,11 @@ public class ScriptExecutionEntity {
         this.participantId = participantId;
     }
 
-    public String getScript() {
+    public Text getScript() {
         return script;
     }
 
-    public void setScript(final String script) {
+    public void setScript(final Text script) {
         this.script = script;
     }
 

@@ -21,5 +21,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/jmock-junit4-2.5.1.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/junit-4.4.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/junit-dep-4.4.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance-1.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

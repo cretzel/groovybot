@@ -35,13 +35,14 @@ public final class BlipUtils {
 
     /* TODO: Does never find any inline blips although there are some. */
     public static List<Blip> getThisRobotsInlineBlips(final Blip blip) {
-        GroovyBotApplication.getLogger().info("getThisRobotsInlineBlips: ");
+        GroovyBotApplication.get().getLogger().info(
+                "getThisRobotsInlineBlips: ");
         return Lists.newArrayList(Iterables.filter(blip.getDocument()
                 .getInlineBlips(), new Predicate<Blip>() {
 
             @Override
             public boolean apply(final Blip blip) {
-                GroovyBotApplication.getLogger().info(
+                GroovyBotApplication.get().getLogger().info(
                         "creator: " + blip.getCreator());
                 return GroovyBotApplication.ROBOT_EMAIL.equals(blip
                         .getCreator());

@@ -1,10 +1,10 @@
 package com.groovybot.engine.impl;
 
-import com.groovybot.engine.GroovyTemplateEngine;
-
 import groovy.lang.Binding;
 import groovy.text.SimpleTemplateEngine;
 import groovy.text.Template;
+
+import com.groovybot.engine.GroovyTemplateEngine;
 
 public class GroovyTemplateEngineImpl implements GroovyTemplateEngine {
 
@@ -23,8 +23,7 @@ public class GroovyTemplateEngineImpl implements GroovyTemplateEngine {
     }
 
     private Binding newBinding() {
-        final Binding binding = new Binding();
-        return binding;
+        return new Binding();
     }
 
 }

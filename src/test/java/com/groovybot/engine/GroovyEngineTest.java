@@ -9,17 +9,17 @@ import org.codehaus.groovy.control.CompilationFailedException;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.groovybot.engine.impl.GroovyEngineExecutionWrapperImpl;
+import com.groovybot.engine.impl.GroovyShellEngineExecutionWrapperImpl;
 import com.groovybot.engine.impl.GroovyShellEngineImpl;
 import com.groovybot.engine.result.EngineResult;
 
 public class GroovyEngineTest {
 
-    private GroovyEngineExecutionWrapper engineWrapper;
+    private GroovyShellEngineExecutionWrapper engineWrapper;
 
     @Before
     public void before() {
-        engineWrapper = new GroovyEngineExecutionWrapperImpl(
+        engineWrapper = new GroovyShellEngineExecutionWrapperImpl(
                 new GroovyShellEngineImpl());
     }
 

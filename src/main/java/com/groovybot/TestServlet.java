@@ -7,24 +7,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.groovybot.engine.GroovyEngineExecutionWrapper;
-import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
+import com.groovybot.controller.GroovyBotController;
+import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
-import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 
 public class TestServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private GroovyEngineExecutionWrapper engineWrapper;
     private EngineResultFormatter formatter;
+    private GroovyShellEngineExecutionWrapper engineWrapper;
 
     @Override
     public void init() throws ServletException {
         super.init();
-        final GroovyEngineExecutionWrapperFactoryImpl engineWrapperFactory = new GroovyEngineExecutionWrapperFactoryImpl();
-        engineWrapper = engineWrapperFactory.createShellEngineWrapper();
-        formatter = new EngineResultFormatterImpl();
+        engineWrapper = GroovyBotApplication.get().getInjector().getInstance(
+                GroovyShellEngineExecutionWrapper.class);
+        formatter = GroovyBotApplication.get().getInjector().getInstance(
+                EngineResultFormatter.class);
     }
 
     @Override
@@ -42,6 +42,7 @@ public class TestServlet extends HttpServlet {
     protected void doPost(final HttpServletRequest req,
             final HttpServletResponse resp) throws ServletException,
             IOException {
+        GroovyBotApplication.get().getLogger().info("TestServlet.doPost");
 
         if (req.getParameter("execute") != null) {
             final String input = req.getParameter("input");
@@ -49,6 +50,12 @@ public class TestServlet extends HttpServlet {
             resp.getWriter().println(formatter.format(result));
         }
         
+        final GroovyBotController botController = GroovyBotApplication.get().getInjector().getInstance(
+                GroovyBotController.class);
+
+        System.err.println("foo");
+        
+
     }
 
 }

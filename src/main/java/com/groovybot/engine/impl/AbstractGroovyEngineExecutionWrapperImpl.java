@@ -10,12 +10,12 @@ import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.impl.DefaultEngineResult;
 
-public class GroovyEngineExecutionWrapperImpl implements
+public abstract class AbstractGroovyEngineExecutionWrapperImpl implements
         GroovyEngineExecutionWrapper {
 
     private final GroovyEngine engine;
 
-    public GroovyEngineExecutionWrapperImpl(final GroovyEngine engine) {
+    public AbstractGroovyEngineExecutionWrapperImpl(final GroovyEngine engine) {
         this.engine = engine;
     }
 

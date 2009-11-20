@@ -3,6 +3,7 @@ package com.groovybot.controller.impl;
 import java.util.List;
 import java.util.logging.Logger;
 
+import com.google.inject.Inject;
 import com.google.inject.internal.Lists;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
@@ -16,29 +17,24 @@ import com.groovybot.controller.handler.HelpBlipHandler;
 import com.groovybot.controller.handler.PrefixedBlipHandler;
 import com.groovybot.controller.handler.ScriptBlipHandler;
 import com.groovybot.controller.handler.TemplateBlipHandler;
-import com.groovybot.controller.handler.impl.GadgetBlipHandlerImpl;
-import com.groovybot.controller.handler.impl.HelpBlipHandlerImpl;
-import com.groovybot.controller.handler.impl.ScriptBlipHandlerImpl;
-import com.groovybot.controller.handler.impl.TemplateBlipHandlerImpl;
 import com.groovybot.util.BlipUtils;
 import com.groovybot.util.GroovyGadget;
 
 public class GroovyBotControllerImpl implements GroovyBotController {
 
-    private final ScriptBlipHandler scriptBlipHandler;
-    private final TemplateBlipHandler templateBlipHandler;
     private final GadgetBlipHandler gadgetBlipHandler;
-    private final HelpBlipHandler helpBlipHandler;
     private List<PrefixedBlipHandler> prefixedBlipHandlers = Lists
             .newArrayList();
 
     private transient Logger logger;
 
-    public GroovyBotControllerImpl() {
-        scriptBlipHandler = new ScriptBlipHandlerImpl();
-        templateBlipHandler = new TemplateBlipHandlerImpl();
-        gadgetBlipHandler = new GadgetBlipHandlerImpl();
-        helpBlipHandler = new HelpBlipHandlerImpl();
+    // TODO inject blipHandler list?
+    @Inject
+    public GroovyBotControllerImpl(final ScriptBlipHandler scriptBlipHandler,
+            final TemplateBlipHandler templateBlipHandler,
+            final GadgetBlipHandler gadgetBlipHandler,
+            final HelpBlipHandler helpBlipHandler) {
+        this.gadgetBlipHandler = gadgetBlipHandler;
         prefixedBlipHandlers = Lists.newArrayList(scriptBlipHandler,
                 templateBlipHandler, gadgetBlipHandler, helpBlipHandler);
     }

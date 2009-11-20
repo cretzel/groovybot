@@ -1,20 +1,21 @@
 package com.groovybot.controller.handler.impl;
 
+import com.google.inject.Inject;
 import com.groovybot.controller.handler.TemplateBlipHandler;
-import com.groovybot.engine.GroovyEngineExecutionWrapper;
-import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
-import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
+import com.groovybot.engine.GroovyTemplateEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.model.ScriptExecutionType;
 
 public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
         implements TemplateBlipHandler {
 
-    private GroovyEngineExecutionWrapper engineExecutionWrapper;
+    private final GroovyTemplateEngineExecutionWrapper engineExecutionWrapper;
 
-    public TemplateBlipHandlerImpl() {
+    @Inject
+    public TemplateBlipHandlerImpl(
+            final GroovyTemplateEngineExecutionWrapper engineExecutionWrapper) {
         super(TemplateBlipHandler.TEMPLATE_PREFIX);
-        setEngineExecutionWrapperFactory(new GroovyEngineExecutionWrapperFactoryImpl());
+        this.engineExecutionWrapper = engineExecutionWrapper;
     }
 
     @Override
@@ -25,11 +26,6 @@ public class TemplateBlipHandlerImpl extends AbstractPrefixedEngineBlipHandler
     @Override
     protected EngineResult executeScript(final String script) {
         return engineExecutionWrapper.execute(script);
-    }
-
-    public void setEngineExecutionWrapperFactory(
-            final GroovyEngineExecutionWrapperFactory factory) {
-        engineExecutionWrapper = factory.createTemplateEngineWrapper();
     }
 
 }

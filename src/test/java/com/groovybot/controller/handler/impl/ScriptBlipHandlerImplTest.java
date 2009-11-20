@@ -12,8 +12,7 @@ import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
-import com.groovybot.engine.GroovyEngineExecutionWrapper;
-import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
+import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
@@ -29,8 +28,7 @@ public class ScriptBlipHandlerImplTest {
     private EngineResult engineResultMock;
     private ScriptExecutionEntityDao daoMock;
     private Event eventMock;
-    private GroovyEngineExecutionWrapperFactory engineExecutionWrapperFactoryMock;
-    private GroovyEngineExecutionWrapper engineWrapperMock;
+    private GroovyShellEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
     private BlipHandlerResponseStrategy responseStrategyMock;
 
@@ -44,22 +42,10 @@ public class ScriptBlipHandlerImplTest {
         engineResultMock = mockery.mock(EngineResult.class);
         daoMock = mockery.mock(ScriptExecutionEntityDao.class);
         eventMock = mockery.mock(Event.class);
-        engineExecutionWrapperFactoryMock = mockery
-                .mock(GroovyEngineExecutionWrapperFactory.class);
-        engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
+        engineWrapperMock = mockery
+                .mock(GroovyShellEngineExecutionWrapper.class);
         responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
-        handler = new ScriptBlipHandlerImpl();
-
-        mockery.checking(new Expectations() {
-            {
-                one(engineExecutionWrapperFactoryMock)
-                        .createShellEngineWrapper();
-                will(returnValue(engineWrapperMock));
-
-            }
-        });
-        handler
-                .setEngineExecutionWrapperFactory(engineExecutionWrapperFactoryMock);
+        handler = new ScriptBlipHandlerImpl(engineWrapperMock);
 
         handler.setResponseStrategy(responseStrategyMock);
         handler.setGroovyBotScriptExecutionEntityDao(daoMock);

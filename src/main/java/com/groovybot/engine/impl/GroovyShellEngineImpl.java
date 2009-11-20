@@ -17,8 +17,7 @@ public class GroovyShellEngineImpl implements GroovyShellEngine {
     }
 
     private Binding newBinding() {
-        final Binding binding = new Binding();
-        return binding;
+        return new Binding();
     }
 
 }

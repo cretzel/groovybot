@@ -1,33 +1,35 @@
 package com.groovybot.controller.handler.impl;
 
 import com.google.appengine.repackaged.com.google.common.base.Preconditions;
+import com.google.inject.Inject;
 import com.google.wave.api.Blip;
 import com.google.wave.api.Event;
 import com.google.wave.api.Gadget;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.handler.GadgetBlipHandler;
-import com.groovybot.engine.GroovyEngineExecutionWrapper;
-import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
-import com.groovybot.engine.impl.GroovyEngineExecutionWrapperFactoryImpl;
+import com.groovybot.engine.GroovyShellEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
-import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 import com.groovybot.model.ScriptExecutionType;
-import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
+import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.util.BlipUtils;
 import com.groovybot.util.GroovyGadget;
 
 public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
 
-    private GroovyEngineExecutionWrapper engineExecutionWrapper;
+    private final GroovyShellEngineExecutionWrapper engineWrapper;
     private final EngineResultFormatter engineResultFormatter;
-    private final ScriptExecutionEntityDaoImpl groovyBotScriptExecutionEntityDao;
+    private final ScriptExecutionEntityDao scriptExecutionDao;
 
-    public GadgetBlipHandlerImpl() {
-        setEngineExecutionWrapperFactory(new GroovyEngineExecutionWrapperFactoryImpl());
-        engineResultFormatter = new EngineResultFormatterImpl();
-        groovyBotScriptExecutionEntityDao = new ScriptExecutionEntityDaoImpl();
-
+    @Inject
+    public GadgetBlipHandlerImpl(
+            final GroovyShellEngineExecutionWrapper engineWrapper,
+            final EngineResultFormatter engineResultFormatter,
+            final ScriptExecutionEntityDao scriptExecutionDao) {
+        super();
+        this.engineWrapper = engineWrapper;
+        this.engineResultFormatter = engineResultFormatter;
+        this.scriptExecutionDao = scriptExecutionDao;
     }
 
     @Override
@@ -60,8 +62,8 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
         if (groovyGadget.isRunCall()) {
             final String code = groovyGadget.getInput();
             if (code != null) {
-                groovyBotScriptExecutionEntityDao.createEntry(event
-                        .getModifiedBy(), code, ScriptExecutionType.GADGET);
+                scriptExecutionDao.createEntry(event.getModifiedBy(), code,
+                        ScriptExecutionType.GADGET);
                 final EngineResult result = executeScript(code);
 
                 // TODO Replace gadget with a new instance. Workaround for bug.
@@ -78,12 +80,7 @@ public class GadgetBlipHandlerImpl implements GadgetBlipHandler {
     }
 
     protected EngineResult executeScript(final String script) {
-        return engineExecutionWrapper.execute(script);
-    }
-
-    public void setEngineExecutionWrapperFactory(
-            final GroovyEngineExecutionWrapperFactory factory) {
-        engineExecutionWrapper = factory.createShellEngineWrapper();
+        return engineWrapper.execute(script);
     }
 
 }

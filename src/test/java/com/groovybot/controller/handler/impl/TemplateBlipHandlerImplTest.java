@@ -12,8 +12,7 @@ import com.google.wave.api.Event;
 import com.google.wave.api.RobotMessageBundle;
 import com.google.wave.api.TextView;
 import com.groovybot.controller.response.BlipHandlerResponseStrategy;
-import com.groovybot.engine.GroovyEngineExecutionWrapper;
-import com.groovybot.engine.GroovyEngineExecutionWrapperFactory;
+import com.groovybot.engine.GroovyTemplateEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
 import com.groovybot.engine.result.EngineResultFormatter;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
@@ -29,8 +28,7 @@ public class TemplateBlipHandlerImplTest {
     private EngineResult engineResultMock;
     private ScriptExecutionEntityDao daoMock;
     private Event eventMock;
-    private GroovyEngineExecutionWrapperFactory engineExecutionWrapperFactoryMock;
-    private GroovyEngineExecutionWrapper engineWrapperMock;
+    private GroovyTemplateEngineExecutionWrapper engineWrapperMock;
     private RobotMessageBundle bundleMock;
     private BlipHandlerResponseStrategy responseStrategyMock;
 
@@ -44,22 +42,10 @@ public class TemplateBlipHandlerImplTest {
         engineResultMock = mockery.mock(EngineResult.class);
         daoMock = mockery.mock(ScriptExecutionEntityDao.class);
         eventMock = mockery.mock(Event.class);
-        engineExecutionWrapperFactoryMock = mockery
-                .mock(GroovyEngineExecutionWrapperFactory.class);
-        engineWrapperMock = mockery.mock(GroovyEngineExecutionWrapper.class);
+        engineWrapperMock = mockery
+                .mock(GroovyTemplateEngineExecutionWrapper.class);
         responseStrategyMock = mockery.mock(BlipHandlerResponseStrategy.class);
-        handler = new TemplateBlipHandlerImpl();
-
-        mockery.checking(new Expectations() {
-            {
-                one(engineExecutionWrapperFactoryMock)
-                        .createTemplateEngineWrapper();
-                will(returnValue(engineWrapperMock));
-
-            }
-        });
-        handler
-                .setEngineExecutionWrapperFactory(engineExecutionWrapperFactoryMock);
+        handler = new TemplateBlipHandlerImpl(engineWrapperMock);
 
         handler.setResponseStrategy(responseStrategyMock);
         handler.setGroovyBotScriptExecutionEntityDao(daoMock);
@@ -83,8 +69,9 @@ public class TemplateBlipHandlerImplTest {
                 one(engineWrapperMock).execute(code);
                 will(returnValue(engineResultMock));
 
-                one(responseStrategyMock).handleResult(with(bundleMock), with(blipMock),
-                        with(eventMock), with(any(String.class)));
+                one(responseStrategyMock).handleResult(with(bundleMock),
+                        with(blipMock), with(eventMock),
+                        with(any(String.class)));
 
                 allowing(eventMock);
                 allowing(engineResultMock);
@@ -107,19 +94,20 @@ public class TemplateBlipHandlerImplTest {
             {
                 allowing(blipMock).getDocument();
                 will(returnValue(documentMock));
-                
+
                 allowing(documentMock).getText();
                 will(returnValue(blipText));
-                
+
                 allowing(engineWrapperMock).execute(with(any(String.class)));
                 will(returnValue(engineResultMock));
-                
+
                 allowing(eventMock);
                 allowing(daoMock);
                 allowing(engineResultMock);
-                
-                one(responseStrategyMock).handleResult(with(bundleMock), with(blipMock),
-                        with(eventMock), with(any(String.class)));
+
+                one(responseStrategyMock).handleResult(with(bundleMock),
+                        with(blipMock), with(eventMock),
+                        with(any(String.class)));
                 allowing(bundleMock);
             }
         });

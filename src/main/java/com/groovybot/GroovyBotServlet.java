@@ -7,13 +7,12 @@ import javax.servlet.ServletException;
 import com.google.wave.api.AbstractRobotServlet;
 import com.google.wave.api.RobotMessageBundle;
 import com.groovybot.controller.GroovyBotController;
-import com.groovybot.controller.impl.GroovyBotControllerImpl;
 
 @SuppressWarnings("serial")
 public class GroovyBotServlet extends AbstractRobotServlet {
 
     private GroovyBotController botController;
-    
+
     private transient Logger logger;
 
     private Logger getLogger() {
@@ -26,7 +25,8 @@ public class GroovyBotServlet extends AbstractRobotServlet {
     @Override
     public void init() throws ServletException {
         super.init();
-        botController = new GroovyBotControllerImpl();
+        botController = GroovyBotApplication.get().getInjector().getInstance(
+                GroovyBotController.class);
     }
 
     @Override
