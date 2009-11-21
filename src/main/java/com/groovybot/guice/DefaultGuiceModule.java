@@ -23,7 +23,9 @@ import com.groovybot.engine.impl.GroovyShellEngineExecutionWrapperImpl;
 import com.groovybot.engine.impl.GroovyShellEngineImpl;
 import com.groovybot.engine.impl.GroovyTemplateEngineExecutionWrapperImpl;
 import com.groovybot.engine.impl.GroovyTemplateEngineImpl;
+import com.groovybot.engine.result.EngineResultFactory;
 import com.groovybot.engine.result.EngineResultFormatter;
+import com.groovybot.engine.result.impl.DefaultEngineResultFactory;
 import com.groovybot.engine.result.impl.EngineResultFormatterImpl;
 import com.groovybot.persistence.ScriptExecutionEntityDao;
 import com.groovybot.persistence.impl.ScriptExecutionEntityDaoImpl;
@@ -33,6 +35,7 @@ public final class DefaultGuiceModule extends AbstractModule {
     @Override
     protected void configure() {
         // Engine
+        bind(EngineResultFactory.class).to(DefaultEngineResultFactory.class);
         bind(EngineResultFormatter.class).to(EngineResultFormatterImpl.class);
         bind(GroovyEngineExecutionWrapper.class).annotatedWith(
                 TemplateWrapper.class).to(
@@ -46,7 +49,7 @@ public final class DefaultGuiceModule extends AbstractModule {
                 AppendResultInlineBlipStrategy.class);
         // bind(BlipHandlerResponseStrategy.class).to(
         // AppendResultBlipToWaveStrategy.class);
-        
+
         // TODO another Module?
         bind(ScriptExecutionEntityDao.class).to(
                 ScriptExecutionEntityDaoImpl.class);

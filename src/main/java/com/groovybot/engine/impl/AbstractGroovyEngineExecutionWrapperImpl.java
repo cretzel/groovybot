@@ -8,15 +8,18 @@ import com.google.apphosting.api.ApiProxy.Environment;
 import com.groovybot.engine.GroovyEngine;
 import com.groovybot.engine.GroovyEngineExecutionWrapper;
 import com.groovybot.engine.result.EngineResult;
-import com.groovybot.engine.result.impl.DefaultEngineResult;
+import com.groovybot.engine.result.EngineResultFactory;
 
 public abstract class AbstractGroovyEngineExecutionWrapperImpl implements
         GroovyEngineExecutionWrapper {
 
     private final GroovyEngine engine;
+    private final EngineResultFactory resultFactory;
 
-    public AbstractGroovyEngineExecutionWrapperImpl(final GroovyEngine engine) {
+    public AbstractGroovyEngineExecutionWrapperImpl(final GroovyEngine engine,
+            final EngineResultFactory resultFactory) {
         this.engine = engine;
+        this.resultFactory = resultFactory;
     }
 
     public EngineResult execute(final String script) {
@@ -47,7 +50,7 @@ public abstract class AbstractGroovyEngineExecutionWrapperImpl implements
             output = bout.toString();
         }
 
-        return new DefaultEngineResult(result, output, throwable, stackTrace);
+        return resultFactory.create(result, output, throwable, stackTrace);
     }
 
 }

@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.groovybot.engine.impl.GroovyShellEngineExecutionWrapperImpl;
 import com.groovybot.engine.impl.GroovyShellEngineImpl;
 import com.groovybot.engine.result.EngineResult;
+import com.groovybot.engine.result.impl.DefaultEngineResultFactory;
 
 public class GroovyEngineTest {
 
@@ -20,7 +21,7 @@ public class GroovyEngineTest {
     @Before
     public void before() {
         engineWrapper = new GroovyShellEngineExecutionWrapperImpl(
-                new GroovyShellEngineImpl());
+                new GroovyShellEngineImpl(), new DefaultEngineResultFactory());
     }
 
     @Test
