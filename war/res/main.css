@@ -1,0 +1,49 @@
+@CHARSET "ISO-8859-1";
+
+html,body,div,span,p,h1,h2,h3,h5,h5,table,b,a,emph,tbody,input,button,textarea,select,tbody,thead,tr,td,th,ul,li,dd,dt,dl
+	{
+	font-family: Helvetica, Arial, sans-serif;
+	color: #454545;
+}
+
+.main {
+	margin: 40px 80px;
+	width: 850px;
+}
+
+.main .left {
+	background: url(groovybot.gif) no-repeat scroll top right;
+	float: left;
+	width: 480px;
+	padding-right: 19px;
+	border-right: 1px solid #dedede;
+}
+
+.main .right {
+	margin-top: 80px;
+	margin-left: 30px;
+	width: 320px;
+	float: right;
+	font-size:0.9em;
+}
+
+.feature {
+	cursor: pointer;
+	background-color: #dedede;
+	margin: 20px;
+	padding: 20px;
+	border:1px solid #aaaaaa;
+}
+
+.feature .featureTitle {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.feature .featureDescription {
+	cursor: auto;
+	display: none;
+	overflow: auto;
+	padding-left: 20px;
+	font-size: 0.98em;
+}

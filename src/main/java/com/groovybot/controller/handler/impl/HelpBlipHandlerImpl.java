@@ -18,12 +18,11 @@ public class HelpBlipHandlerImpl extends AbstractPrefixedBlipHandler implements
     @Override
     protected void handleBlipContent(final RobotMessageBundle bundle,
             final Blip blip, final Event event, final String script) {
-        final String text = "GroovyBot Help\n\n" + "Start a blip with ...\n\n"
-                + "!groovy to execute the blip as Groovy code, e.g. "
-                + "!groovy println 'Hello World'\n\n"
-                + "!gtemplate to execute the blip as a Groovy Template, e.g. "
-                + "!gtemplate <% out.println 'Foo' %>\n\n"
-                + "!ggadget to add a nice Groovy gadget";
+        final String text = "GroovyBot Help\n\n" + "Start a blip with ...\n"
+                + "!groovy to execute the blip as Groovy code\n"
+                + "!gtemplate to execute the blip as a Groovy template\n"
+                + "!ggadget to add a nice Groovy gadget\n\n"
+                + "See http://groovybot.appspot.com/ for more details.";
         BlipUtils.appendOrReplaceResponseInlineBlip(blip, text);
     }
 }

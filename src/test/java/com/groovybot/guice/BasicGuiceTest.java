@@ -30,4 +30,5 @@ public class BasicGuiceTest {
 
         assertTrue(instance1.hashCode() == instance2.hashCode());
     }
+    
 }

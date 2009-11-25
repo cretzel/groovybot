@@ -1,27 +1,88 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<!-- The HTML 4.01 Transitional DOCTYPE declaration-->
-<!-- above set at the top of the file will set     -->
-<!-- the browser's rendering engine into           -->
-<!-- "Quirks Mode". Replacing this declaration     -->
-<!-- with a "Standards Mode" doctype is supported, -->
-<!-- but may lead to some differences in layout.   -->
 
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Hello App Engine</title>
+    <link rel="stylesheet" href="res/main.css" type="text/css"></link>
+    <script type="text/javascript" src="res/jquery.js"></script>
+    <script type="text/javascript">
+    	$(document).ready(function() {
+			//$(".main").fadeIn(2200);
+
+			
+			$(".feature").click(function() {
+				$(this).find(".featureDescription").toggle(500);
+				$(this).siblings().find(".featureDescription").hide(500);
+			});
+
+			
+			
+    	});
+    </script>
   </head>
 
   <body>
-    <h1>Hello App Engine!</h1>
+  	<div class="main">
+  		<div class="right">
+  			Source Code of GroovyBot is available at <a href="http://github.com/cretzel/groovybot">GitHub</a>.
+  		</div>
+  		
+  		<div class="left">
+	    <h1>GroovyBot</h1>
+		GroovyBot is a Google Wave Robot that supports evaluation of Groovy 
+		scripts in the wave. GroovyBot can be added to a wave as a participant.
+		Its address is <a href="mailto:groovybot@appspot.com"/>groovybot@appspot.com</a>.
+		Currently, the following features are supported:
+		<p>
+		<div class="feature">
+			<div class="featureTitle">ScriptBlips</div>
+			<div class="featureDescription">
+				Create a blip starting with the prefix "!groovy" followed by
+				actual groovy code. The code will be executed and the result
+				will be displayed in the wave. Example:</br>
+				
+<code><pre>
+!groovy
+def x = 100
+def y = 500
+println x/y
+</pre></code>
+			</div>
+		</div>
+
+		<div class="feature">
+			<div class="featureTitle">TemplateBlips</div>
+			<div class="featureDescription">
+				Create a blip starting with the prefix "!gtemplate" if you
+				want the blip to be evaluated as a Groovy Template. The result
+				will be displayed in the wave. Example:</br>
+				
+<code><pre>
+!gtemplate
+&lt;%= 
+    def cal = Calendar.instance
+    def hour = cal.get(Calendar.HOUR_OF_DAY)
+    def greet = hour < 12 ? 'Good morning' : 'Hello' 
+    out.print greet
+%&gt; World
+</pre></code>
+			</div>
+		</div>
+
+
+		<div class="feature">
+			<div class="featureTitle">GroovyBot Gadget</div>
+			<div class="featureDescription">
+				Create a blip starting with the prefix "!ggadget" to include a
+				nice gadget, that lets you execute groovy code.</br>
+			</div>
+		</div>
+
+
+	</p>
 	
-    <table>
-      <tr>
-        <td colspan="2" style="font-weight:bold;">Available Servlets:</td>        
-      </tr>
-      <tr>
-        <td><a href="groovybot"/>GroovyBot</td>
-      </tr>
-    </table>
+	</div>
+    </div>
   </body>
 </html>
